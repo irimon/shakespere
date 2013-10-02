@@ -89,6 +89,10 @@ class RolesController < ApplicationController
 		render 'new'
   end
   
+  def delete
+		Role.delete_all
+		render 'new'
+  end
   
   def show
 		@roles = Role.order(sort_column + ' ' + sort_direction).paginate(:per_page => 10, :page => params[:page])

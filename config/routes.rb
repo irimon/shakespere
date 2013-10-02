@@ -5,7 +5,7 @@ Shakespere::Application.routes.draw do
   root to: 'roles#new'
   match '/create_table' => 'roles#create', :as => 'create_table'  
    match '/show_table',  to: 'roles#show'
-
+  match '/reset_table',  to: 'roles#delete'
   # first created -> highest priority.
 
   # Sample of regular route:
