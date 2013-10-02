@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+
+
+<body>
+	<script src="../assets/sorttable.js"></script>
+
+	<%= form_tag show_table_path, :method => "get", :id => "roles_search" do %>
+
+			<div id="sort-table">
+					
+				<%= hidden_field_tag :direction, params[:direction] %>
+				<%= hidden_field_tag :sort, params[:sort] %>
+				<table class="table">
+					<thead>
+							<td><%= sortable "name", "Role" %></td>
+							<td><%= sortable "number_of_lines", "Number of lines" %></td>
+							<td><%= sortable "longest_speach", "Longest speech (in lines)" %></td>
+							<td><%= sortable "number_of_scenes", "Number of scenes" %></td>
+							<td><%= sortable "scenes_percent", "Percent of scenes" %></td>
+							
+					</thead>
+						<tbody>
+						<% for role in @roles %>
+							<tr>
+								<td><%= role.name  %> </td>
+								<td><%= role.number_of_lines  %> </td>
+								<td><%= role.longest_speach  %> </td>
+								<td><%= role.number_of_scenes  %> </td>
+								<td><%= role.scenes_percent  %> </td>
+							</tr>	
+						<% end  %> 
+					</tbody>
+				</table>
+				<%= will_paginate @roles %>
+			</div>
+			
+		<% end  %> 
+</body>
