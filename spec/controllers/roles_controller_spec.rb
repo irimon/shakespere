@@ -1,40 +1,36 @@
 require 'spec_helper'
 
-describe RelationshipsController do
+describe "Check controller" do
 
-  let(:user) { FactoryGirl.create(:user) }
-  let(:other_user) { FactoryGirl.create(:user) }
+  
+  describe "creating a table" do
 
-  before { sign_in user }
-
-  describe "creating a relationship with Ajax" do
-
-    it "should increment the Relationship count" do
-      expect do
-        xhr :post, :create, relationship: { followed_id: other_user.id }
-      end.to change(Relationship, :count).by(1)
+    it "should create table" do
+	 before(:all) do 
+		click_button "Create Table" 
     end
 
-    it "should respond with success" do
-      xhr :post, :create, relationship: { followed_id: other_user.id }
-      response.should be_success
-    end
+	it "check line count" do
+		line_count = 0
+		for role in Role.all
+			line_count = line_count + role.number_of_lines
+		end
+		path = Rails.public_path + "/julius_caesar.xml"
+		doc = Nokogiri::XML(open(path))
+		expected_line_count =  doc.xpath('LINE').count
+		line_count.should be(expected_line_count)
+	end
+   
+   
   end
 
-  describe "destroying a relationship with Ajax" do
-
-    before { user.follow!(other_user) }
-    let(:relationship) { user.relationships.find_by_followed_id(other_user) }
+  describe "deleting a table with Ajax" do
 
     it "should decrement the Relationship count" do
       expect do
         xhr :delete, :destroy, id: relationship.id
-      end.to change(Relationship, :count).by(-1)
+      end.to change(Role, :count).to(0)
     end
 
-    it "should respond with success" do
-      xhr :delete, :destroy, id: relationship.id
-      response.should be_success
-    end
   end
 end
